@@ -35,12 +35,6 @@ public class CardController {
     @Autowired
     CardService cardService;
 
-    public CardController(MovieService movieService, ActorService actorService, CardService cardService) {
-        this.movieService = movieService;
-        this.actorService = actorService;
-        this.cardService = cardService;
-    }
-
     @GetMapping("registerActorMovie")
     public String showInfoForm(Model model) {
         prepareCardInfoForm(model);

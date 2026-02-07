@@ -66,8 +66,25 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: calidad
-        run: echo "calidad"
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Análisis de SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=tu_proyecto_key \
+            -Dsonar.organization=tu_organizacion \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.qualitygate.wait=true
   
   stage:
     needs: qa

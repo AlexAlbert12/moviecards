@@ -18,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
+import org.mockito.InjectMocks;
 
 /**
  * Autor: Laura Cercas Ramos
@@ -30,6 +31,7 @@ class CardServiceImplTest {
     ActorService actorService;
     @Mock
     MovieService movieService;
+    @InjectMocks
     private CardServiceImpl sut;
     private AutoCloseable closeable;
 
@@ -37,8 +39,7 @@ class CardServiceImplTest {
     @BeforeEach
     public void setUp() {
         closeable = openMocks(this);
-        sut = new CardServiceImpl(actorService, movieService);
-    }
+  }
 
     @AfterEach
     void tearDown() throws Exception {
