@@ -69,9 +69,25 @@ jobs:
       - name: calidad
         run: echo "calidad"
   
+  stage:
+    needs: qa
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar paquete
+        uses: actions/download-artifact@v4
+        with:
+          name: moviecards-java
+          path: drop_stage
+      - name: Deploy a Pre-Producción
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'moviecards-pre-albert-calugar'
+          publish-profile: ${{ secrets.AZURE_STAGE_PUBLISHPROFILE }}
+          package: 'drop_stage/*.jar'
+
   deploy:
     runs-on: ubuntu-latest
-    needs: qa
+    needs: stage
     if: github.ref=='refs/heads/master'
     permissions:
       id-token: write #This is required for requesting the JWT
