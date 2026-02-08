@@ -81,8 +81,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn sonar:sonar \
-            -Dsonar.projectKey=tu_proyecto_key \
-            -Dsonar.organization=tu_organizacion \
+            -Dsonar.projectKey=AlexAlbert12_moviecards \
+            -Dsonar.organization=alexalbert12 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true
   
