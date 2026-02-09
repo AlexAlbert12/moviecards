@@ -1,8 +1,6 @@
 package com.lauracercas.moviecards.service.actor;
 
-
 import com.lauracercas.moviecards.model.Actor;
-import com.lauracercas.moviecards.repositories.ActorJPA;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,10 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public List<Actor> getAllActors() {
         Actor[] actores = template.getForObject(url, Actor[].class);
-        List<Actor> actoresList = Arrays.asList(actores);
-        return actoresList;
+        if (actores == null) {
+                return java.util.Collections.emptyList();
+            }
+        return Arrays.asList(actores);
     }
 
     @Override

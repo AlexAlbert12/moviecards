@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
+import org.mockito.InjectMocks;
 
 /**
  * Autor: Laura Cercas Ramos
@@ -29,6 +30,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
  */
 class CardControllerTest {
 
+    @InjectMocks
     private CardController controller;
     private AutoCloseable closeable;
 
@@ -45,7 +47,6 @@ class CardControllerTest {
     @BeforeEach
     void setUp() {
         closeable = openMocks(this);
-        controller = new CardController(movieServiceMock, actorServiceMock, cardServiceMock);
     }
 
     @AfterEach

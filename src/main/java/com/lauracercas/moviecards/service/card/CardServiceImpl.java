@@ -25,11 +25,6 @@ public class CardServiceImpl implements CardService {
     @Autowired 
     MovieService movieService;
 
-    public CardServiceImpl(ActorService actorService, MovieService movieService) {
-        this.actorService = actorService;
-        this.movieService = movieService;
-    }
-
     @Override
     public String registerActorInMovie(Card card) {
         Integer actorId = card.getIdActor();

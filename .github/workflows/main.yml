@@ -30,13 +30,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Descargar repositorio
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
     
       - name: Instalar JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: "11"
-          distribution: "adopt"
+          distribution: "temurin"
       
       - name: Instalar Chrome y ChromeDriver para pruebas end to end
         run: |
@@ -66,12 +66,51 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: calidad
-        run: echo "calidad"
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Instalar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Compilar clases para Sonar
+        run: mvn compile -DskipTests
+
+      - name: Análisis de SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=AlexAlbert12_moviecards \
+            -Dsonar.organization=alexalbert12 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.qualitygate.wait=true \
+            -Dsonar.java.binaries=target/classes
   
+  stage:
+    needs: qa
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar paquete
+        uses: actions/download-artifact@v4
+        with:
+          name: moviecards-java
+          path: drop_stage
+      - name: Deploy a Pre-Producción
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'moviecards-pre-albert-calugar'
+          publish-profile: ${{ secrets.AZURE_STAGE_PUBLISHPROFILE }}
+          package: 'drop_stage/*.jar'
+
   deploy:
     runs-on: ubuntu-latest
-    needs: qa
+    needs: stage
     if: github.ref=='refs/heads/master'
     permissions:
       id-token: write #This is required for requesting the JWT

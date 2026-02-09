@@ -1,8 +1,6 @@
 package com.lauracercas.moviecards.service.movie;
 
-
 import com.lauracercas.moviecards.model.Movie;
-import com.lauracercas.moviecards.repositories.MovieJPA;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAllMovies() {
         Movie[] movies = template.getForObject(url, Movie[].class);
-        List<Movie> moviesList = Arrays.asList(movies);
-        return moviesList;
+        if (movies == null) {
+                return java.util.Collections.emptyList();
+            }
+        return Arrays.asList(movies);
     }
 
     @Override
