@@ -68,6 +68,8 @@ jobs:
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Instalar JDK 17
         uses: actions/setup-java@v4
@@ -87,7 +89,7 @@ jobs:
             -Dsonar.projectKey=AlexAlbert12_moviecards \
             -Dsonar.organization=alexalbert12 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.wait=true \
             -Dsonar.java.binaries=target/classes
   
   stage:
