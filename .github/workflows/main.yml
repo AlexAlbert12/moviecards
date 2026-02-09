@@ -75,6 +75,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Compilar clases para Sonar
+        run: mvn compile -DskipTests
+
       - name: Análisis de SonarQube
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -85,6 +88,7 @@ jobs:
             -Dsonar.organization=alexalbert12 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true
+            -Dsonar.java.binaries=target/classes
   
   stage:
     needs: qa
