@@ -42,6 +42,7 @@ public class ActorController {
     @GetMapping("actors/new")
     public String newActor(Model model) {
         model.addAttribute(ACTOR_LITERAL, new Actor()); 
+        model.addAttribute(TITLE_LITERAL, Messages.NEW_ACTOR_TITLE);
         return ACTOR_FORM_VIEW;
     }
 
